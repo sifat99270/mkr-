@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model check {
+  id        Int      @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String   @unique
+  password  String
+  otp       String
+  img       String   @default("nophoto.jpg")
+  update    DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model user {
+  id        Int      @id @default(autoincrement())
+  firstname String   @db.VarChar(400)
+  lastname  String   @db.VarChar(400)
+  email     String   @unique @db.VarChar(400)
+  password  String   @db.VarChar(400)
+  img       String   @default("nophoto.jpg")
+  otp       String
+  role Role @default(user)
+  update    DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create    DateTime @default(now()) @db.Timestamp(0)
+  month     month[]
+  person    person[]
+  ip ip[]
+}
+
+enum Role{
+  admin
+  user
+}
+
+model ip{
+   id     Int      @id @default(autoincrement())
+   name String
+    userId Int
+    user user @relation(references: [id],fields: [userId],onDelete: Restrict, onUpdate: Cascade)
+    update    DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create    DateTime @default(now()) @db.Timestamp(0)
+}
+model month {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(400)
+  year   String   @db.VarChar(400)
+  userId Int
+  user   user     @relation(references: [id], fields: [userId], onUpdate: Cascade, onDelete: Restrict)
+  update DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create DateTime @default(now()) @db.Timestamp(0)
+  person person[]
+}
+
+model person {
+  id      Int      @id @default(autoincrement())
+  name    String
+  hazira  String
+  rate    String
+  mot     String
+  khoraki String
+  barti   String
+  gotoMas String
+  paona   String
+  monthId Int
+  userId  Int
+  user    user     @relation(references: [id], fields: [userId], onDelete: Restrict, onUpdate: Cascade)
+  month   month    @relation(references: [id], fields: [monthId], onDelete: Restrict, onUpdate: Cascade)
+  update  DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create  DateTime @default(now()) @db.Timestamp(0)
+}
+
+model about {
+  id       Int      @id @default(autoincrement())
+  img      String
+  name String
+  color String
+  position String
+  fb String
+  phone String
+  whatsapp String
+  longDes String   @db.Text
+  update   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model work {
+  id       Int      @id @default(autoincrement())
+  img      String
+  title String
+  name String
+  color String
+  longDes String   @db.Text
+  update   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create   DateTime @default(now()) @db.Timestamp(0)
+}
+
+model service{
+   id       Int      @id @default(autoincrement())
+  img      String
+  title String
+  color String
+  name String
+  longDes String   @db.Text
+  update   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create   DateTime @default(now()) @db.Timestamp(0)
+}
+ model messsage{
+  id       Int      @id @default(autoincrement())
+  name String 
+  email String
+  number String
+  subject String
+  message String
+  update   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  create   DateTime @default(now()) @db.Timestamp(0)
+ }
