@@ -98,7 +98,7 @@ export default function Slider({ sub = [1, 2, 3, 4, 5, 6] }) {
                 {sub.map(() => {
                     return (
                         <div ref={imgRef} key={Math.random()} className="absolute w-full h-full top-0  ">
-                            <img className="   object-center rounded-lg w-full h-full object-cover" src="/img.webp" />
+                            <img className="   object-center rounded-lg w-full h-full object-cover" src="#" />
                         </div>
                     )
                 })}
