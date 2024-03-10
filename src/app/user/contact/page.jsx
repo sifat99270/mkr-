@@ -5,7 +5,7 @@ async function submit(obj){
   "use server"
   const res=await fetch(`${process.env.HOST}/api/public/contact`,{
     method:"POST",
-    body:obj
+    body:JSON.stringify(obj)
   })
   const data=await res.json();
   return data;
