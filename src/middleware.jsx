@@ -17,8 +17,7 @@ export async function middleware(req, res) {
 
     if (path.startsWith('/dashboard') || path.startsWith('/user/account')) {
         try {
-            const token = req.cookies.get('token')['value'];
-            
+            const token = req.cookies.get('token')['value'];     
             const decode = await VerifyToken(token);
             const header = new Headers(req.headers);
             header.set('id', decode['id']);
@@ -28,7 +27,7 @@ export async function middleware(req, res) {
                     headers: header
                 }
             })
-        } catch (e) {
+        } catch (e) {  
             return NextResponse.redirect(new URL('/user/login', req.url));
         }
 

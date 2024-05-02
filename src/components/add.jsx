@@ -18,14 +18,20 @@ export default function Add({fun,data}){
    const[monthId,setMonthId]=useState(0);
    const scrollRef=useRef();
    const [scrollDec,setScrollDec]=useState(true);
-
+const heightRef=useRef();
+const addHeightRef=useRef();
    function test(){
     if(scrollDec){
       scrollRef.current.scrollLeft=-scrollRef.current.clientWidth
+      scrollRef.current.style.height=addHeightRef.current.clientHeight+50+"px"
      }else{
       scrollRef.current.scrollLeft=scrollRef.current.clientWidth
+      scrollRef.current.style.height=heightRef.current.clientHeight+50+"px"
      }
    }
+   useEffect(()=>{
+    scrollRef.current.style.height=addHeightRef.current.clientHeight+50+"px"
+   },[])
    useEffect(()=>{
     window.addEventListener('resize',test);
 
@@ -37,11 +43,13 @@ export default function Add({fun,data}){
     setScrollDec(false);
     setMonthId(id)
     scrollRef.current.scrollLeft=scrollRef.current.clientWidth
-    
+    scrollRef.current.style.height=heightRef.current.clientHeight+50+"px"
    };
    function scrollRight(){
+    console.log(addHeightRef.current.clientHeight)
     setScrollDec(true);
     scrollRef.current.scrollLeft=-scrollRef.current.clientWidth
+    scrollRef.current.style.height=addHeightRef.current.clientHeight+50+"px"
    }
     useEffect(() => {
         setMot((parseInt(obj["hazira"]) * parseInt(obj["rate"])).toString());
@@ -76,8 +84,8 @@ export default function Add({fun,data}){
         setLoading(false)
       }
     return(
-        <div ref={scrollRef} className="flex w-screen overflow-hidden relative p-6">
-          <div className=" flex justify-center items-center w-screen flex-col gap-2 ">
+        <div ref={scrollRef} className="flex w-screen overflow-hidden relative py-4">
+          <div ref={addHeightRef} className=" absolute flex justify-center items-center w-screen  flex-col gap-2 ">
           {data.map((item)=>{
                 return(
                     <div onClick={()=>{
@@ -90,7 +98,7 @@ export default function Add({fun,data}){
                 )
             })}
           </div>
-            <div className="w-screen  absolute -right-full">
+            <div ref={heightRef}  className="w-screen  absolute -right-full">
               <div className="p-2 " onClick={scrollRight}><i className="bi bi-arrow-left-square-fill text-2xl cursor-pointer ml-2 "></i></div>
             <form className="flex flex-col md:flex-row w-full gap-4 md:gap-2 p-2">
            <Input wid="wis"  type="text" name="name" set={setObj} textName="name" />

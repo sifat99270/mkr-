@@ -50,8 +50,9 @@ export default function My({fun,fun2,data,person}){
         heightRef.current.style.position='absolute';
         scrollRef.current.scrollLeft=-scrollRef.current.clientWidth
        }
-       async function submit(obj){
+       async function submit(obj,ind){
         let data=await fun(obj);
+        unicPerson[ind]=data['data']
         return data;
        }
        async function submit2(obj,ind){

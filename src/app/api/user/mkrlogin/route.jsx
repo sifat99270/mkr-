@@ -4,6 +4,7 @@ import { CreateToken } from "@/utility/token";
 export async function POST(req, res) {
     try {
         const body=await req.json();
+        console.log(body)
         const email=body['email'];
         const password=body['password'];
         const prisma=new PrismaClient();

@@ -24,7 +24,6 @@ export async function POST(req, res) {
                 otp:otp.toString(),
             }
         })
-        console.log(create)
         if(create['id']){
         let EmailText = `Your OTP Code is=${otp}`;
       let EmailSubject = "Next News Verification Code";
@@ -81,7 +80,6 @@ export async function GET(req, res) {
         }
         
     }catch(err) {
-        console.log(err);
         return NextResponse.json({status:"fail",data:err})
     }
 

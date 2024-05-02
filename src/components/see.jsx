@@ -57,7 +57,7 @@ export default function See({data,submit,submit2,ind}){
             paona:paona,
             id:data['id']
         }
-        const result=await submit(datas);
+        const result=await submit(datas,ind);
         if(result['status']==='success'){
             setDecition(true);
             success("update successfull")
