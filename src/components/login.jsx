@@ -38,7 +38,6 @@ export default function Login({submit}){
       {Loading ? <Fetch /> : <button onClick={async (e) => {
         setLoading(true);
         const res = await submit(obj);
-        console.log(res);
         if (res['status'] === "success") {
           success('login success');
           router.push('/dashboard');
