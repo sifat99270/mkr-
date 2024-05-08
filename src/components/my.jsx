@@ -2,6 +2,8 @@
 "use client"
 import { useEffect, useRef,useState } from "react";
 import See from "./see"
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import Pdf from "./pdf";
 
 
 export default function My({fun,fun2,data,person}){
@@ -11,7 +13,7 @@ export default function My({fun,fun2,data,person}){
     const heightRightRef=useRef();
     const[unicPerson,setUnicPerson]=useState([]);
     const [scrollDec,setScrollDec]=useState(true);
-
+    const [date,setDate]=useState({})
     function test(){
         if(scrollDec){
             scrollRef.current.scrollLeft=-scrollRef.current.clientWidth
@@ -26,7 +28,7 @@ export default function My({fun,fun2,data,person}){
         }
     })
    
-    function scrollLeft(id){
+    function scrollLeft(id,item){
         setScrollDec(false)
         heightRightRef.current.style.position='absolute';
         heightRef.current.style.position='relative';
@@ -42,6 +44,7 @@ export default function My({fun,fun2,data,person}){
               return all;
            },[])
            setUnicPerson(unic);
+           setDate(item)
            scrollRef.current.scrollLeft=scrollRef.current.clientWidth
        };
        function scrollRight(){
@@ -73,11 +76,12 @@ export default function My({fun,fun2,data,person}){
             {data.map((item)=>{
                 return(
                     <div onClick={()=>{
-                        scrollLeft(item['id'])
+                        scrollLeft(item['id'],item)
                     }} key={item['id']} className=" relative w-11/12 md:w-3/4 flex gap-2 rounded-md shadow-md shadow-gray-400 p-2 cursor-pointer" href="/user/account/see">
                     <div className=" w-1/2 rounded-lg shadow-md shadow-slate-500 p-2 text-center font-extrabold text-emerald-400">{item['name']}</div>
                     <div className="w-1/2  rounded-lg shadow-md shadow-slate-500 p-2 text-center font-extrabold text-emerald-400">{item['year']}</div>
                     <div><i className=" text-2xl bi bi-box-arrow-in-right"></i></div>
+                   
                 </div>
                 )
             })}
@@ -102,7 +106,14 @@ export default function My({fun,fun2,data,person}){
              </div>
         )
        })}
+        
+        {unicPerson && <PDFDownloadLink className=" text-center font-bold w-[300px] mx-auto child bg-slate-400  p-2 -top-6 left-1/2 rounded-md shadow-md shadow-gray-300" document={<Pdf date={date} data={unicPerson} />}>DOWNLOAD PDF</PDFDownloadLink>}
+        
         </div>
+       
+      {unicPerson &&   <PDFViewer style={{width:900,height:500}}>
+         <Pdf />
+         </PDFViewer>}
         </div>
     )
 }
